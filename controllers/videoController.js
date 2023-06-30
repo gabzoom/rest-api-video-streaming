@@ -22,3 +22,15 @@ exports.getVideoById = async (req, res) => {
         res.status(500).send('Não encontrado');
     }
 };
+
+// Cria um novo vídeo
+exports.createVideo = async (req, res) => {
+    try {
+        let video = await new Video(req.body);
+        await video.save();
+        res.status(201).json(video);
+    } catch (err) {
+        console.log('[ERRO NA CRIAÇÃO]: ' + err);
+        res.status(500).send('Erro ao tentar criar o vídeo');
+    }
+};

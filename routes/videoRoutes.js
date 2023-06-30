@@ -6,5 +6,7 @@ const videoController = require('../controllers/videoController');
 router.get('/', videoController.getVideo);
 // Rota para obter um vídeo por id
 router.get('/:id', videoController.getVideoById);
+// Rota para criar um novo vídeo
+router.post('/', videoController.createVideo);
 
 module.exports = router;
