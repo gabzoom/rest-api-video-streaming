@@ -1,29 +1,26 @@
 const Video = require('../models/videoModel');
 
-// Lista todos os vídeos
 exports.getVideo = async (req, res) => {
     try {
-        const data = await Video.find();
-        res.status(200).json(data);
+        const videos = await Video.find();
+        res.status(200).json(videos);
     } catch (err) {
         console.log('[ERRO NA BUSCA]: ', err);
-        res.status(500).json({ error: 'Ocorreu um erro ao buscar os livros' });
+        res.status(500).json({ error: 'Ocorreu um erro ao buscar os videos' });
     }
 };
 
-// Obtém um vídeo pelo id
 exports.getVideoById = async (req, res) => {
     const { id } = req.params;
     try {
-        const data = await Video.findById(id);
-        res.status(200).json(data);
+        const video = await Video.findById(id);
+        res.status(200).json(video);
     } catch (err) {
         console.log('[ERRO NA BUSCA]: ' + err);
         res.status(500).send('Não encontrado');
     }
 };
 
-// Cria um novo vídeo
 exports.createVideo = async (req, res) => {
     try {
         let video = await new Video(req.body);
@@ -32,5 +29,20 @@ exports.createVideo = async (req, res) => {
     } catch (err) {
         console.log('[ERRO NA CRIAÇÃO]: ' + err);
         res.status(500).send('Erro ao tentar criar o vídeo');
+    }
+};
+
+exports.updateVideo = async (req, res) => {
+    const id = req.params.id;
+    try {
+        const video = await Video.findByIdAndUpdate(
+            id,
+            { $set: req.body },
+            { new: true },
+        );
+        res.status(200).json(video);
+    } catch (err) {
+        console.log('[ERRO AO ATUALIZAR]: ' + err);
+        res.status(500).send('Erro ao tentar atualizar o vídeo');
     }
 };
