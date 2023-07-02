@@ -5,8 +5,8 @@ exports.getVideo = async (req, res) => {
         const videos = await Video.find();
         res.status(200).json(videos);
     } catch (err) {
-        console.log('[ERRO NA BUSCA]: ', err);
-        res.status(500).json({ error: 'Ocorreu um erro ao buscar os videos' });
+        console.log('[ERRO AO BUSCAR]: ', err);
+        res.status(500).json({ error: 'Falha ao buscar os videos' });
     }
 };
 
@@ -16,8 +16,8 @@ exports.getVideoById = async (req, res) => {
         const video = await Video.findById(id);
         res.status(200).json(video);
     } catch (err) {
-        console.log('[ERRO NA BUSCA]: ' + err);
-        res.status(500).send('Não encontrado');
+        console.log('[ERRO AO BUSCAR]: ' + err);
+        res.status(500).send('Vídeo não encontrado');
     }
 };
 
@@ -27,8 +27,8 @@ exports.createVideo = async (req, res) => {
         await video.save();
         res.status(201).json(video);
     } catch (err) {
-        console.log('[ERRO NA CRIAÇÃO]: ' + err);
-        res.status(500).send('Erro ao tentar criar o vídeo');
+        console.log('[ERRO AO CRIAR]: ' + err);
+        res.status(500).json({ error: 'Falha ao criar novo vídeo' });
     }
 };
 
@@ -43,6 +43,17 @@ exports.updateVideo = async (req, res) => {
         res.status(200).json(video);
     } catch (err) {
         console.log('[ERRO AO ATUALIZAR]: ' + err);
-        res.status(500).send('Erro ao tentar atualizar o vídeo');
+        res.status(500).send('Falha ao atualizar vídeo');
+    }
+};
+
+exports.deleteVideo = async (req, res) => {
+    const { id } = req.params;
+    try {
+        await Video.findByIdAndRemove(id);
+        res.status(200).send('Vídeo removido com sucesso!');
+    } catch (err) {
+        console.log('[ERRO AO DELETAR]: ', err);
+        res.status(500).send('Falha ao remover vídeo');
     }
 };
