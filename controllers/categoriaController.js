@@ -34,3 +34,18 @@ exports.createCategoria = async (req, res) => {
         res.status(500).json({ error: 'Falha ao criar nova categoria' });
     }
 };
+
+exports.updateCategoria = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const categoria = await Categoria.findByIdAndUpdate(
+            id,
+            { $set: req.body },
+            { new: true },
+        );
+        res.status(200).json(categoria);
+    } catch (err) {
+        console.log('[ERRO AO ATUALIZAR]: ', err);
+        res.status(500).send('Falha ao atualizar');
+    }
+};
