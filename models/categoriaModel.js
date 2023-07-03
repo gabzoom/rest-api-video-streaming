@@ -4,8 +4,8 @@ const { Schema } = mongoose;
 const categoriaSchema = new Schema(
     {
         id: { type: String },
-        titulo: { type: String, require: true },
-        cor: { type: String, require: true },
+        titulo: { type: String, required: true },
+        cor: { type: String, required: true },
     },
     {
         timestamps: true,
