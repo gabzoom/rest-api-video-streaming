@@ -49,3 +49,14 @@ exports.updateCategoria = async (req, res) => {
         res.status(500).send('Falha ao atualizar');
     }
 };
+
+exports.deleteCategoria = async (req, res) => {
+    try {
+        const id = req.params.id;
+        await Categoria.findByIdAndRemove(id);
+        res.status(200).send('Categoria removida com sucesso');
+    } catch (err) {
+        console.log('[ERRO AO DELETAR]: ', err);
+        res.status(500).send('Falha ao remover categoria');
+    }
+};
