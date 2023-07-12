@@ -1,3 +1,4 @@
+const { default: mongoose } = require('mongoose');
 const Categoria = require('../models/categoriaModel');
 
 exports.getCategoria = async (req, res) => {
@@ -30,8 +31,14 @@ exports.createCategoria = async (req, res) => {
         });
         res.status(201).json(categoria);
     } catch (err) {
-        console.log('[ERRO AO CRIAR]: ', err);
-        res.status(500).json({ error: 'Falha ao criar nova categoria' });
+        if (err instanceof mongoose.Error.ValidationError) {
+            const campo = Object.keys(err.errors)[0];
+            console.log('[CAMPO OBRIGATÓRIO]: ' + err);
+            res.status(400).json({ error: `O campo ${campo} é obrigatório!` });
+        } else {
+            console.log('[FALHA AO CRIAR]: ', err);
+            res.status(500).json({ error: 'Falha ao criar nova categoria' });
+        }
     }
 };
 
