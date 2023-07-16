@@ -21,6 +21,18 @@ exports.getVideoById = async (req, res) => {
     }
 };
 
+exports.getVideoByName = async (req, res) => {
+    const titulo = req.query.titulo;
+
+    try {
+        const video = await Video.find({ titulo: titulo });
+        res.status(200).json(video);
+    } catch (err) {
+        console.log('[ERRO AO BUSCAR]: ' + err);
+        res.status(500).send('Vídeo não encontrado');
+    }
+};
+
 exports.createVideo = async (req, res) => {
     try {
         let video = await new Video(req.body);
