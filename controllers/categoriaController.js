@@ -1,5 +1,6 @@
 const { default: mongoose } = require('mongoose');
 const Categoria = require('../models/categoriaModel');
+const Video = require('../models/videoModel');
 
 exports.getCategoria = async (req, res) => {
     try {
@@ -65,5 +66,16 @@ exports.deleteCategoria = async (req, res) => {
     } catch (err) {
         console.log('[ERRO AO DELETAR]: ', err);
         res.status(500).send('Falha ao remover categoria');
+    }
+};
+
+exports.getVideosByCategoria = async (req, res) => {
+    try {
+        const categoriaId = req.params.id;
+        const videos = await Video.find({ categoriaId: categoriaId });
+        res.status(200).json(videos);
+    } catch (err) {
+        console.log('[ERRO AO BUSCAR]: ', err);
+        res.status(500).send('Categoria não encontrada');
     }
 };
